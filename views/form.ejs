@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1,
+        h4,
+        p {
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Diabetes Prediction</h1>
+    <p>This is an AI model for predicting diabetes. The model's <strong>Accuracy</strong> performance is approximately
+        <strong>77.27%</strong>.
+    </p>
+    <h4 id="responseMessage" style="display: none; text-align: center;">
+    </h4>
+
+    <form id="diabetesForm" action="/predict-diabetes" method="POST">
+        <label for="Pregnancies">Number Of Pregnancies:</label>
+        <input type="number" id="Pregnancies" name="Pregnancies" required>
+
+        <label for="Glucose">Glucose Level:</label>
+        <input type="number" id="Glucose" name="Glucose" required>
+
+        <label for="BloodPressure">Blood Pressure value:</label>
+        <input type="number" id="BloodPressure" name="BloodPressure" required>
+
+        <label for="SkinThickness">Skin Thickness value:</label>
+        <input type="number" id="SkinThickness" name="SkinThickness" required>
+
+        <label for="Insulin">Insulin Level:</label>
+        <input type="number" id="Insulin" name="Insulin" required>
+
+        <label for="BMI">BMI Value:</label>
+        <input type="number" id="BMI" name="BMI" required>
+
+        <label for="DiabetesPedigreeFunction">Diabetes Pedigree Function value:</label>
+        <input type="number" id="DiabetesPedigreeFunction" name="DiabetesPedigreeFunction" required>
+
+        <label for="Age">Age of person:</label>
+        <input type="number" id="Age" name="Age" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('diabetesForm');
+            const formData = new FormData(form);
+
+            fetch('/predict-diabetes', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const responseMessage = document.getElementById('responseMessage');
+                    responseMessage.textContent = data[1];
+                    responseMessage.style.color = data[0] === "[0]" ? 'green' : 'red';
+                    responseMessage.style.display = 'block';
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        const form = document.getElementById('diabetesForm');
+        form.addEventListener('submit', submitForm);
+    </script>
+</body>
+
+</html>
