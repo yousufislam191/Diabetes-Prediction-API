@@ -11,6 +11,7 @@ git clone https://github.com/yousufislam191/Diabetes-Prediction-API.git
 ```
 Go to your `Diabetes-Prediction-API` folder and open it using vscode then run command:
 ```
+npm install
 npm run dev
 ```
 
